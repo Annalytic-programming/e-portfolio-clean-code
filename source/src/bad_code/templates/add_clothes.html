@@ -1,0 +1,31 @@
+{% extends 'template.html' %}
+
+{% block title %} 
+    Add Clothes
+{% endblock %}
+
+{% block content %}
+
+    <h1>Add your clothes here:</h1>
+    <form method="post">
+        <input type="text" id="name" name="name" placeholder="Name">
+        <br>
+        <input type="text" name="color" id="color" placeholder="Color">
+        <br>
+        <label for="img">Upload a picture</label>
+        <input type="file" name="img" id="img" hidden>
+        <br>
+        <div class="radiogroup">
+            {% for category in categories %}
+                <label><input type="radio" id="{{category}}" name="category" value="{{category}}">{{category}}</label>
+                <br>
+            {% endfor %}
+        </div>
+    </form>
+    <a href="{{ url_for('userdashboard') }}">Back to dashboard</a>
+    {% if mess %}
+        <p>{{mess}}</p>
+    {% endif %}
+
+    
+{% endblock %}

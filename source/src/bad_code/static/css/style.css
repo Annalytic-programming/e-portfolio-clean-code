@@ -1,0 +1,115 @@
+:root {
+    --font: #efefef;
+    --purpledark: #381850;
+    --purplemid: #4a0d79;
+    --purple: #51008f;
+    --purplebrigth: #c7d5ed;
+    --darkblue: #002060;
+    --brightgray: #242424;
+    --brightgray-inv: #dbdbdb;
+    --darkgray: #171717;
+    --black: #090909;
+    --black-inv: #f6f6f6;
+    --attention: #ec2300;
+    --origin-orange: #f15a23;
+    --origin-orange-bright: #fc9d7a;
+    --steam-dark: #111d2e;
+    --steam-bright: #16325a;
+    --fontgray: #828282;
+    --fontgraydark: #535353;
+    --green: #29da05;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px var(--brightgray) inset !important;
+    -webkit-text-fill-color: var(--font);
+}
+::-webkit-scrollbar{
+    background: var(--purpledark);
+    width: .5em;
+}
+::-webkit-scrollbar-track{
+    background: var(--brightgray);
+}
+::-webkit-scrollbar-thumb{
+    background: var(--purplemid);
+    border: solid .1em var(--black);
+    border-radius: .5em;
+}
+a{
+    color: var(--font);
+    font-size: 2.5em;
+}
+body {
+    background-color: var(--brightgray);
+    color: var(--font);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2em;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    text-align: center;
+}
+h1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2.5em;
+}
+input[type="text"],
+input[type="password"]{
+    width: 25%;
+    font-size: 1em;
+    color: var(--font);
+    height: 2em;
+    background-color: var(--brightgray);
+    border-radius: .33em;
+    border: none;
+    border-bottom: var(--purple) .2em solid;
+    margin-top: 1em;
+}
+input[type="submit"]{
+    background-color: var(--purple);
+    color: var(--font);
+    font-size: 1em;
+    height: 2em;
+    width: 25%;
+    margin-top: 1.5em;
+    border: var(--black) .1em solid;
+    border-radius: .33em;
+}
+input::placeholder{
+    font-size: larger;
+    color: var(--fontgray);
+}
+button{
+    margin-left: 40%;
+    margin-top: 1em;
+    background-color: var(--purple);
+    border-radius: .33em;
+    border: none;
+    width: 20%;
+    
+}
+label[for="img"] {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    margin-top: 1em;
+    background-color: var(--purple);
+    border-radius: .33em;
+    border: none;
+    width: 25%;
+    padding: .5em;
+}
+label {
+    margin-top: .5em;
+    display: inline-block;
+    vertical-align: middle;
+}
+input[type="radio"] {
+    margin-top: .75em;
+    vertical-align: middle;
+}
+

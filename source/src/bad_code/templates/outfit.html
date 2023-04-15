@@ -1,0 +1,98 @@
+{% extends 'template.html' %}
+
+{% block title %} 
+    Outfit
+{% endblock %}
+
+{% block content %}
+
+    <h1>{{user}}'s Outfit</h1>
+
+    <table>
+    {% if clothes.category is 'top clothing' %}
+        <tr>
+            <th>
+                {{clothes.name}}
+            </th>
+            <th>
+                {{clothes.color}}
+            </th>
+            <th>
+                {{clothes.category}}
+            </th>
+            <th>
+                <img src="{{clothes.path_to_img}}" alt="default.png">
+            </th>
+        </tr>
+    {% endif %}
+    {% if clothes.category is 'bottom clothing' %}
+        <tr>
+            <th>
+                {{clothes.name}}
+            </th>
+            <th>
+                {{clothes.color}}
+            </th>
+            <th>
+                {{clothes.category}}
+            </th>
+            <th>
+                <img src="{{clothes.path_to_img}}" alt="default.png">
+            </th>
+        </tr>
+    {% endif %}
+    {% if clothes.category is 'onsie' %}
+        <tr>
+            <th>
+                {{clothes.name}}
+            </th>
+            <th>
+                {{clothes.color}}
+            </th>
+            <th>
+                {{clothes.category}}
+            </th>
+            <th>
+                <img src="{{clothes.path_to_img}}" alt="default.png">
+            </th>
+        </tr>
+    {% endif %}
+    {% if clothes.category is 'dress' %}
+        <tr>
+            <th>
+                {{clothes.name}}
+            </th>
+            <th>
+                {{clothes.color}}
+            </th>
+            <th>
+                {{clothes.category}}
+            </th>
+            <th>
+                <img src="{{clothes.path_to_img}}" alt="default.png">
+            </th>
+        </tr>
+    {% endif %}
+    {% if clothes.category is 'shoe' %}
+        <tr>
+            <th>
+                {{clothes.name}}
+            </th>
+            <th>
+                {{clothes.color}}
+            </th>
+            <th>
+                {{clothes.category}}
+            </th>
+            <th>
+                <img src="{{clothes.path_to_img}}" alt="default.png">
+            </th>
+        </tr>
+    {% endif %}
+    </table>
+
+    <a href="{{ url_for('outfit') }}">New style</a>
+
+    <a href="{{ url_for('userdashboard') }}">Back to dashboard</a>
+
+{% endblock %}

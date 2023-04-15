@@ -1,0 +1,22 @@
+{% extends 'template.html' %}
+
+{% block title %} 
+    Dashboard
+{% endblock %}
+
+{% block content %}
+
+    <h1>Hallo {{user}}</h1>
+    <button>
+        <a href="{{url_for('add_clothes')}}">
+            Add a clothing
+        </a>
+    </button>
+    <button>
+        <a href="{{url_for('outfit')}}">
+            Get a outfit
+        </a>
+    </button>
+
+    
+{% endblock %}
