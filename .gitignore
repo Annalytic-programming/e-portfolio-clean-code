@@ -137,3 +137,5 @@ annalytic.db
 
 #VSCode
 .vscode
+
+.pylintrc

@@ -1,7 +1,8 @@
 from clothesmanager.enums.clothesCategoriesEnum import ClothesCategoriesEnum
 
 
-class StyleToCategoriesMapper():
+class StyleToCategoriesMapper:
+    
     
     @staticmethod
     def map_style_string_to_categories(style) -> list[ClothesCategoriesEnum]:
@@ -16,4 +17,3 @@ class StyleToCategoriesMapper():
             styles.append(ClothesCategoriesEnum.ONSIE)
         styles.append(ClothesCategoriesEnum.SHOES)
         return styles
-        

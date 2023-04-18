@@ -13,8 +13,10 @@ app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "MySecretKey"
 app.config["SESSION_COOKIE_SAMESITE"] = "Strict"
-app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'static', 'pictures')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///annalytic.db'
+app.config["UPLOAD_FOLDER"] = os.path.join(
+    os.path.dirname(__file__), "static", "pictures"
+)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///annalytic.db"
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -22,28 +24,28 @@ lm = LoginManager()
 lm.init_app(app)
 lm.login_view = "index"
 
+
 class Clothes(db.Model):
-    
     # the id of the chlothing
     id = db.Column(db.Text, primary_key=True)
-    
+
     # the name of the chlothing
     name = db.Column(db.Text)
-    
+
     # the category of the chlothing -> see Enum ClothingCategory
     category = db.Column(db.Text)
-    
+
     # the id of the clothing
     color = db.Column(db.Text)
-    
+
     # the image file
     path_to_img = db.Column(db.Text, unique=True, default="default.png")
-    
+
     styles = ["dress only", "onsie only", "top and bottom"]
-    
+
     def __repr__(self) -> str:
         return f"Clothes: {self.name} for category {self.category}"
-    
+
     def outfit():
         outfit = random.choice(Clothes.styles)
         outfit_fin = []
@@ -72,39 +74,44 @@ class Clothes(db.Model):
             shoe = random.choice(shoes)
             outfit_fin.append(shoe)
         return outfit_fin
-    
+
     def add_clothing(name, category, color, path_to_img):
-        clothing = Clothes(id=str(uuid.uuid4()), name=name, category=category, color=color, path_to_img=path_to_img)
+        clothing = Clothes(
+            id=str(uuid.uuid4()),
+            name=name,
+            category=category,
+            color=color,
+            path_to_img=path_to_img,
+        )
         db.session.add(clothing)
         db.session.commit()
         return True
-    
+
 
 class User(db.Model, UserMixin):
-    
     id = db.Column(db.Text, primary_key=True)
     username = db.Column(db.Text, unique=True)
     password = db.Column(db.Text)
-    
+
     def __repr__(self) -> str:
         return f'User("{self.username}")'
-    
+
     def register(username, password):
         user = User(id=str(uuid.uuid4()), username=username, password=password)
         db.session.add(user)
         db.session.commit()
         return True
-    
+
     @staticmethod
     def get_uid(id):
         user = User.query.filter_by(id=id).first()
         return user
-    
+
     @staticmethod
     def get_user(username):
         user = User.query.filter_by(username=username).first()
         return user
-    
+
     def login(username, password):
         user = User.query.filter_by(username=username).first()
         if user is None:
@@ -114,11 +121,9 @@ class User(db.Model, UserMixin):
                 return True
             else:
                 return False
-            
 
 
 class ClothesCategory(Enum):
-    
     TOP_CLOTHING = "top clothing"
     BOTTOM_CLOTHING = "bottom clothing"
     ONSIE = "onsie"
@@ -126,9 +131,7 @@ class ClothesCategory(Enum):
     SHOE = "shoe"
 
 
-class Controller():
-
-
+class Controller:
     @staticmethod
     @lm.user_loader
     def load_user(user_id):
@@ -138,10 +141,10 @@ class Controller():
     @app.context_processor
     def inject_time():
         if flask_login.current_user.is_active:
-            return {'cu': flask_login.current_user.username}
+            return {"cu": flask_login.current_user.username}
         return {}
-        
-    @app.route('/create_user')
+
+    @app.route("/create_user")
     def create_user():
         User.register("Anna", bcrypt.generate_password_hash("Admin1!").decode("utf-8"))
         return redirect(url_for("index"))
@@ -191,7 +194,11 @@ class Controller():
             path_to_save = os.path.join(app.config["UPLOAD_FOLDER"], path)
             if Clothes.add_clothing(n, c, col, path_to_db):
                 img.save(path_to_save)
-                return render_template("add_clothes.html", mess=f"Clothing added {n}", categories=categories)
+                return render_template(
+                    "add_clothes.html",
+                    mess=f"Clothing added {n}",
+                    categories=categories,
+                )
             else:
                 return redirect(url_for("udb"))
 
@@ -203,35 +210,31 @@ class Controller():
             return render_template("outfit.html", user=user, clothes=clothes)
         else:
             return redirect(url_for("login"))
-        
+
     @app.route("/easteregg")
     # TODO - implement method easteregg for easteregg view
     def easteregg():
         pass
-    
-    # Do NOT remove this Method 
+
+    # Do NOT remove this Method
     def what_is_this_shit(n):
         th = 1.5
-        
+
         x2 = n * 0.5
         y = n
-        
-        packed_y = struct.pack('f', y)
-        i = struct.unpack('i', packed_y)[0]     # evil floating point bit level hacking
-        
-        i = 0x5f3759df - (i >> 1)          
-        packed_i = struct.pack('i', i)          # what the fuck?
-        y = struct.unpack('f', packed_i)[0]
-        
-        y = y * (th - (x2 * y * y))     # 1st iteration
-        # y = y * (th - (x2 * y * y))   # 2nd iteration, this can be removed
-        
-        return y
-    
-    
 
-    
+        packed_y = struct.pack("f", y)
+        i = struct.unpack("i", packed_y)[0]  # evil floating point bit level hacking
+
+        i = 0x5F3759DF - (i >> 1)
+        packed_i = struct.pack("i", i)  # what the fuck?
+        y = struct.unpack("f", packed_i)[0]
+
+        y = y * (th - (x2 * y * y))  # 1st iteration
+        # y = y * (th - (x2 * y * y))   # 2nd iteration, this can be removed
+
+        return y
+
+
 if __name__ == "__main__":
     app.run(debug=False)
-    
-    

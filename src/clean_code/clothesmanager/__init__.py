@@ -9,8 +9,8 @@ app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "MySecretKey"
 app.config["SESSION_COOKIE_SAMESITE"] = "Strict"
-app.config['UPLOAD_FOLDER'] = path.join(path.dirname(__file__), 'static', 'pictures')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///annalytic.db'
+app.config["UPLOAD_FOLDER"] = path.join(path.dirname(__file__), "static", "pictures")
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///annalytic.db"
 
 db = SQLAlchemy(app)
 

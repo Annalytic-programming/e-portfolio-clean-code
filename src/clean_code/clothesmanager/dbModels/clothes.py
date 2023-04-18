@@ -7,7 +7,8 @@ from clothesmanager.mapper.styleToCategoriesMapper import StyleToCategoriesMappe
 
 
 class Clothes(db.Model):
-
+    
+    
     id = db.Column(db.Text, primary_key=True)
     name = db.Column(db.Text)
     category = db.Column(db.Text)
@@ -19,7 +20,13 @@ class Clothes(db.Model):
 
     @staticmethod
     def add_clothing(name: str, category: str, color: str, path_to_img: str):
-        clothing = Clothes(id=str(uuid4()), name=name, category=category, color=color, path_to_img=path_to_img)
+        clothing = Clothes(
+            id=str(uuid4()),
+            name=name,
+            category=category,
+            color=color,
+            path_to_img=path_to_img,
+        )
         db.session.add(clothing)
         db.session.commit()
         return True
@@ -43,7 +50,7 @@ class Clothes(db.Model):
     def _map_style_to_category_list(style: str):
         style_list = StyleToCategoriesMapper.map_style_string_to_categories(style)
         return Clothes._map_styles_to_category_string_list(style_list)
-    
+
     @staticmethod
     def _map_styles_to_category_string_list(style_list):
         return [style.value for style in style_list]
