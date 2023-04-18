@@ -1,0 +1,17 @@
+{% extends 'template.html' %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/easteregg.css') }}">
+{% endblock %}
+
+{% block title %} 
+    You found an easteregg!
+{% endblock %}
+
+{% block content %}
+
+    <h1>Hallo {{current_user}}</h1>
+    <h2>You just found the super duper secret easteregg page</h2>
+    <img src="{{url_for('static', filename='pictures/easteregg.png')}}" alt="easteregg" class="easteregg">
+    
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'template.html' %}
+
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index_clothes.css') }}">
+{% endblock %}
+
+{% block title %} 
+    Login
+{% endblock %}
+
+{% block content %}
+
+    <h1>Welcome!</h1>
+    <h2>If you want to find your new style login:</h2>
+    <form method="post">
+        <input type="text" name="username" id="username" placeholder="Username" required>
+        <br>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <br>
+        <input type="submit" name="submit" id="submit">
+    </form>
+    
+{% endblock %}

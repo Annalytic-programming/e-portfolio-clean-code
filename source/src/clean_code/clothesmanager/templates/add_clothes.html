@@ -1,0 +1,39 @@
+{% extends 'template.html' %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/clothes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index_clothes.css') }}">
+{% endblock %}
+
+{% block title %} 
+    Add Clothes
+{% endblock %}
+
+{% block content %}
+
+    <h1>Add your clothes here:</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="text" id="name" name="name" placeholder="Name" required>
+        <br>
+        <input type="text" name="color" id="color" placeholder="Color" required>
+        <br>
+        <label for="img">Upload a picture</label>
+        <input type="file" name="img" id="img" hidden required>
+        <br>
+        <div class="radiogroup">
+            {% for category in categories %}
+                <label><input type="radio" id="{{category}}" name="category" value="{{category}}" required>{{category}}</label>
+                <br>
+            {% endfor %}
+        </div>
+        <br>
+        <input type="submit" name="submit" id="submit">
+    </form>
+    <hr>
+    <a href="{{ url_for('render_dashboard_view') }}" class="link">Back to dashboard</a>
+    {% if msg %}
+        <p style="color: green;">{{msg}}</p>
+    {% endif %}
+
+    
+{% endblock %}

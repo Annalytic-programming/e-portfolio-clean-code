@@ -1,0 +1,45 @@
+{% extends 'template.html' %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/outfit.css') }}">
+{% endblock %}
+
+{% block title %} 
+    Outfit
+{% endblock %}
+
+{% block content %}
+
+    <h1>{{user}}'s Outfit</h1>
+
+    <a href="{{ url_for('render_outfit_view') }}" class="link">New style</a>
+    <br>
+    <a href="{{ url_for('render_dashboard_view') }}" class="link">Back to dashboard</a>
+    <br>
+
+    <table>
+        <tr class="tablehead">
+            <th>Name</th>
+            <th>Color</th>
+            <th>Category</th>
+            <th>Image</th>
+        </tr>
+    {% for clothing in clothes %}
+        <tr>
+            <td>
+                {{clothing.name}}
+            </td>
+            <td>
+                {{clothing.color}}
+            </td>
+            <td>
+                {{clothing.category}}
+            </td>
+            <td>
+                <img src="{{clothing.path_to_img}}" alt="default.png" class="outfit-image">
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+    
+{% endblock %}

@@ -1,0 +1,17 @@
+table{
+    width: 100%;
+}
+td {
+    width: 25%;
+}
+th{
+    text-decoration: underline;
+}
+.outfit-image{
+    height: 10em;
+}
+.link{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-size: 1em;
+}

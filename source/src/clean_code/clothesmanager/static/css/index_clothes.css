@@ -1,0 +1,29 @@
+form{
+    width: 100%;
+}
+input[type="text"],
+input[type="password"]{
+    width: 25%;
+    font-size: 1em;
+    color: var(--font);
+    height: 2em;
+    background-color: var(--brightgray);
+    border-radius: .33em;
+    border: none;
+    border-bottom: var(--purple) .2em solid;
+    margin-top: 1em;
+}
+input[type="submit"]{
+    background-color: var(--purple);
+    color: var(--font);
+    font-size: 1em;
+    height: 2em;
+    width: 25%;
+    margin-top: 1.5em;
+    border: var(--black) .1em solid;
+    border-radius: .33em;
+}
+input::placeholder{
+    font-size: larger;
+    color: var(--fontgray);
+}

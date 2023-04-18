@@ -1,0 +1,26 @@
+{% extends 'template.html' %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block title %} 
+    Dashboard
+{% endblock %}
+
+{% block content %}
+
+    <h1>Hallo {{current_user}} </h1>
+    <button>
+        <a href="{{url_for('render_add_clothes_view')}}" class="dashboard-link">
+            Add a clothing
+        </a>
+    </button>
+    <button>
+        <a href="{{url_for('render_outfit_view')}}" class="dashboard-link">
+            Get a outfit
+        </a>
+    </button>
+    <a href="{{url_for('render_easteregg_view')}}" class="easteregg-link">EASTEREGG</a>
+
+{% endblock %}

@@ -132,3 +132,6 @@ dmypy.json
 annalytic.db
 *.db
 
+# sonarqube
+.scannerwork
+

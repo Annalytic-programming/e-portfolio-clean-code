@@ -1,3 +1,4 @@
+import struct
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_bcrypt import Bcrypt
 import flask_login
@@ -43,14 +44,8 @@ class Clothes(db.Model):
     def __repr__(self) -> str:
         return f"Clothes: {self.name} for category {self.category}"
     
-    def add_clothing(name, category, color, path_to_img):
-        clothing = Clothes(id=str(uuid.uuid4()), name=name, category=category, color=color, path_to_img=path_to_img)
-        db.session.add(clothing)
-        db.session.commit()
-        return True
-    
-    def outfit(self):
-        outfit = random.choice(self.styles)
+    def outfit():
+        outfit = random.choice(Clothes.styles)
         outfit_fin = []
         if outfit == "dress only":
             dresses = Clothes.query.filter_by(category="dress").all()
@@ -77,8 +72,13 @@ class Clothes(db.Model):
             shoe = random.choice(shoes)
             outfit_fin.append(shoe)
         return outfit_fin
-            
-
+    
+    def add_clothing(name, category, color, path_to_img):
+        clothing = Clothes(id=str(uuid.uuid4()), name=name, category=category, color=color, path_to_img=path_to_img)
+        db.session.add(clothing)
+        db.session.commit()
+        return True
+    
 
 class User(db.Model, UserMixin):
     
@@ -107,10 +107,14 @@ class User(db.Model, UserMixin):
     
     def login(username, password):
         user = User.query.filter_by(username=username).first()
-        if bcrypt.check_password_hash(user.password, password):
-            return True
-        else:
+        if user is None:
             return False
+        else:
+            if bcrypt.check_password_hash(user.password, password):
+                return True
+            else:
+                return False
+            
 
 
 class ClothesCategory(Enum):
@@ -124,11 +128,13 @@ class ClothesCategory(Enum):
 
 class Controller():
 
+
+    @staticmethod
     @lm.user_loader
     def load_user(user_id):
-        print ("user loaded")
         return User.get_uid(user_id)
 
+    @staticmethod
     @app.context_processor
     def inject_time():
         if flask_login.current_user.is_active:
@@ -151,13 +157,16 @@ class Controller():
         else:
             username = request.form["username"]
             password = request.form["password"]
-            if User.login(username, password):
-                user = User.get_user(username)
-                print (flask_login.current_user.is_active)
-                flask_login.login_user(user)
-                return redirect(url_for("userdashboard"))
-            else:
+            user = User.query.filter_by(username=username).first()
+            if user is None:
                 return render_template("index.html")
+            else:
+                if bcrypt.check_password_hash(user.password, password):
+                    user = User.get_user(username)
+                    flask_login.login_user(user)
+                    return redirect(url_for("udb"))
+                else:
+                    return render_template("login.html")
 
     @app.route("/userdashboard", methods=["GET", "POST"])
     @flask_login.login_required
@@ -167,10 +176,10 @@ class Controller():
     @app.route("/new_clothes", methods=["GET", "POST"])
     @flask_login.login_required
     def add_clothes():
+        categories = []
+        for category in ClothesCategory:
+            categories.append(category.value)
         if request.method == "GET":
-            categories = []
-            for category in ClothesCategory:
-                categories.append(category.value)
             return render_template("add_clothes.html", categories=categories)
         else:
             c = request.form["category"]
@@ -178,10 +187,11 @@ class Controller():
             n = request.form["name"]
             img = request.files["img"]
             path = img.filename
+            path_to_db = os.path.join("static", "pictures", path)
             path_to_save = os.path.join(app.config["UPLOAD_FOLDER"], path)
-            if Clothes.add_clothing(n, c, col, path_to_save):
+            if Clothes.add_clothing(n, c, col, path_to_db):
                 img.save(path_to_save)
-                return render_template("add_clothes.html", mess="Clothing added")
+                return render_template("add_clothes.html", mess=f"Clothing added {n}", categories=categories)
             else:
                 return redirect(url_for("udb"))
 
@@ -189,18 +199,36 @@ class Controller():
     def outfit():
         if flask_login.current_user.is_active:
             user = flask_login.current_user.username
-            return render_template("outfit.html", user=user)
+            clothes = Clothes.outfit()
+            return render_template("outfit.html", user=user, clothes=clothes)
         else:
-            user = flask_login.current_user.username
-            outfit = Clothes.outfit()
-            return render_template("outfit.html", clothes=outfit, user=user)
+            return redirect(url_for("login"))
         
     @app.route("/easteregg")
-    # TODO - implement easteregg method
+    # TODO - implement method easteregg for easteregg view
     def easteregg():
         pass
+    
+    # Do NOT remove this Method 
+    def what_is_this_shit(n):
+        th = 1.5
         
-
+        x2 = n * 0.5
+        y = n
+        
+        packed_y = struct.pack('f', y)
+        i = struct.unpack('i', packed_y)[0]     # evil floating point bit level hacking
+        
+        i = 0x5f3759df - (i >> 1)          
+        packed_i = struct.pack('i', i)          # what the fuck?
+        y = struct.unpack('f', packed_i)[0]
+        
+        y = y * (th - (x2 * y * y))     # 1st iteration
+        # y = y * (th - (x2 * y * y))   # 2nd iteration, this can be removed
+        
+        return y
+    
+    
 
     
 if __name__ == "__main__":
