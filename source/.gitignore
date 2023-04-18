@@ -134,4 +134,4 @@ annalytic.db
 
 # sonarqube
 .scannerwork
-
+.vscode
