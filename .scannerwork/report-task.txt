@@ -1,6 +1,0 @@
-projectKey=E-Portfolio
-serverUrl=http://localhost:9000
-serverVersion=10.0.0.68432
-dashboardUrl=http://localhost:9000/dashboard?id=E-Portfolio
-ceTaskId=AYeGIB5-YLtm6H3MzRUi
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYeGIB5-YLtm6H3MzRUi
