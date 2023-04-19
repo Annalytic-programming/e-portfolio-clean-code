@@ -41,6 +41,7 @@ class Controller:
         )
         return redirect(url_for("index"))
 
+    @staticmethod
     @app.route("/", methods=GET_AND_POST)
     @app.route("/login", methods=GET_AND_POST)
     def render_index_view():
